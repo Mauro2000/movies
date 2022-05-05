@@ -1,0 +1,93 @@
+<?php
+
+use \Statickidz\GoogleTranslate;
+
+use App\Models\movies;
+
+
+$source = 'en';
+$target = 'pt';
+/**
+ * PHP IMDb.com Grabber
+ *
+ * This PHP library enables you to scrape data from IMDB.com.
+ *
+ *
+ * If you want to thank me for this library, please buy me something at Amazon
+ * (https://www.amazon.de/hz/wishlist/ls/8840JITISN9L/) or use
+ * https://www.paypal.me/FabianBeiner. Thank you! 🙌
+ *
+ * @author  Fabian Beiner <fb@fabianbeiner.de>
+ * @license https://opensource.org/licenses/MIT The MIT License
+ * @link    https://github.com/FabianBeiner/PHP-IMDB-Grabber/ GitHub Repository
+ * @version 6.1.7
+ */
+
+$trans = new GoogleTranslate();
+
+$movie= new movies;
+
+$data_movie=[];
+
+$IMDB = new IMDB('tt2382320');
+if ($IMDB->isReady) {
+
+    array_push($data_movie,
+    [
+        "poster"=>$IMDB->getPoster($sSize = 'small'),
+        "name"=>$IMDB->gettitle(),
+        "desc"=>$IMDB->getDescription(),
+        'categs'=>explode('/',$IMDB->getGenre()),
+        'year'=>$IMDB->getYear(),
+        'time'=>$IMDB->getRuntime(),
+        'type'=>$IMDB->getType(),
+]);
+
+
+
+if($data_movie[0]['type']=="Movie"){
+    array_push($data_movie[0],
+    [
+        'cover'=>'https://www.themoviedb.org/t/p/original/lir6WyT5O7bwW8DVjKZPjY62nsG.jpg',
+        'directors'=>$IMDB->getDirectorAsUrl($sTarget = ''),
+        'cast'=>$IMDB->getCastImages($iLimit = 2, $bMore = true, $sSize = 'small', $bDownload = false),
+        'votes'=>$IMDB->getRating(),
+        'trailer'=>$IMDB->getTrailerAsUrl($bEmbed = false),
+        'keywords'=>explode('/',$IMDB->getPlotKeywords()),
+        'awards'=>$IMDB->getAwards(),
+        'photos'=>$IMDB->getPhotos($iLimit = 4, $bMore = true, $sSize = 'small'),
+        'akas'=>$IMDB->getAkas(),
+    ]);
+
+    print_r($IMDB->getDirectorAsUrl($sTarget = ''));
+
+    //print_r($IMDB->getCastImages($iLimit = 1, $bMore = true, $sSize = 'small', $bDownload = false));
+
+    if(!Storage::exists('moviesfolder/Cast')) {
+
+        Storage::makeDirectory('moviesfolder/Cast', 0775, true); //creates directory
+
+    }
+
+    foreach ($IMDB->getCastImages($iLimit = 4, $bMore = true, $sSize = 'mid', $bDownload = false) as $key => $value) {
+
+//Image::make($value)->save('public/movies/Cast/tt2382320/teste.jpg');
+
+if(!Storage::exists('moviesfolder/Cast/'.$key.'.jpg')){
+
+    Storage::disk('moviesfolder')->put('/Cast/'.$key.'.jpg', file_get_contents($value));
+}
+
+    }
+
+}
+
+
+  //echo  $trans->translate($source, $target,$IMDB->getDescription());>
+//print_r($data_movie);
+} else {
+    echo 'Movie not found. 😞';
+}
+
+return Response::json($data_movie);
+

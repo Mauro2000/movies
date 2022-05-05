@@ -1,0 +1,284 @@
+@extends('frontend.header.header')
+
+@include('meta::manager', [
+    'title'         => $movie->name.' - '.config('app.name').' - Veja Séries de Televisão e Filmes Online',
+    'description'   => 'Assitir '.$movie->name.' grátis',
+    'image'         => 'Url to the image',
+    'type'=>'article'
+])
+
+@section('links')
+<link rel="stylesheet" href="{{asset('css/movie-details.css')}}">
+<style>
+    .right-infos{
+        margin-left: 220px;
+        width: 780px;
+    }
+    .modal-dialog {
+      max-width: 800px;
+      margin: 30px auto;
+  }
+
+
+
+.modal-body {
+  position:relative;
+  padding:0px;
+}
+.close {
+  position:absolute;
+  right:-30px;
+  top:0;
+  z-index:999;
+  font-size:2rem;
+  font-weight: normal;
+  color:#fff;
+  opacity:1;
+}
+</style>
+@endsection
+
+@section('content')
+    <div class="img-background" style="background-image:url({{asset('movies/'.$movie->IMDB.'/'.$movie->cover[0]->image.'')}});"></div>
+
+
+    <section class="position-relative infos">
+
+        <img class="poster" src="{{asset('movies/'.$movie->IMDB.'/'.$movie->IMDB.'.jpg')}}"/>
+
+        <div class="right-infos">
+        <h1>Assistir</h1>
+        <h2 class=" title mb-3">{{$movie->name}}</h2>
+
+        <div class="d-flex mb-3 align-items-center" id="info-movie">
+            <div class="year mr-3">
+                {{$movie->year}}
+            </div>
+            <span class="mr-3 ratting">
+                {{str_replace(',','.',$movie->votes)}} <i>/10</i> <div class="Stars ml-1" style="--rating: {{$movie->votes}};"></div></span>
+            <span class="time mr-3">
+                <i class="fas fa-clock"></i>
+                {{$movie->time}}</span>
+            <span class="mr-3 text-uppercase trailer" data-toggle="modal" data-src="{{$movie->trailer}}" data-target="#myModal">
+                Trailer
+                <i class="fas fa-angle-right ml-2"></i>
+            </span>
+        </div>
+
+        <p class="Description summary mb-3"> {{$movie->summary}}</p>
+
+
+        <p><span>Diretor:</span><span>{{$movie->director}}</span></p>
+
+            <div class="genres mb-3">
+                <?php $genres=explode(' ,',$movie->categs)?>
+
+                @foreach ($genres as $item)
+                <a class="mr-3">{{$item}}</a>
+                @endforeach
+            </div>
+
+            @if (Auth::user())
+
+
+
+
+
+
+            <div class="d-flex mt-3 m btns justify-content-center align-items-center r-mb-23 fadeInUp animated" data-animation-in="fadeInUp" data-delay-in="1.2" style="opacity: 1; animation-delay: 1.2s;">
+
+                <a href="javascript:void(0)" onclick="showplayers();"   class="mr-2 btn-login2 w-50" id="showPlayersmobile" tabindex="0">
+                    <div class="buttons">
+                    <i class="fas fa-play" aria-hidden="true"></i>
+                    <span>Assitir</span>
+                    </div>
+                </a>
+
+                <a href="javascript:void(0)" onclick="AddWishlist('{{$movie->id}}')"  class="mr-2  btn-login2 w-50" id="wishlist_btn" tabindex="0">
+                    <div class="buttons">
+                    <i class="fas fa-plus" aria-hidden="true"></i>
+                    <span>A Minha Lista</span>
+                    </div>
+                </a>
+
+
+            </div>
+
+            <div class="button" id="showPlayers" onclick="showplayers();">
+                <svg version="1.1" id="play" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" height="100px" width="100px"
+                viewBox="0 0 100 100" enable-background="new 0 0 100 100" xml:space="preserve">
+             <path class="stroke-solid" fill="none" stroke="white"  d="M49.9,2.5C23.6,2.8,2.1,24.4,2.5,50.4C2.9,76.5,24.7,98,50.3,97.5c26.4-0.6,47.4-21.8,47.2-47.7
+               C97.3,23.7,75.7,2.3,49.9,2.5"/>
+             <path class="stroke-dotted" fill="none" stroke="white"  d="M49.9,2.5C23.6,2.8,2.1,24.4,2.5,50.4C2.9,76.5,24.7,98,50.3,97.5c26.4-0.6,47.4-21.8,47.2-47.7
+               C97.3,23.7,75.7,2.3,49.9,2.5"/>
+             <path class="icon" fill="white" d="M38,69c-1,0.5-1.8,0-1.8-1.1V32.1c0-1.1,0.8-1.6,1.8-1.1l34,18c1,0.5,1,1.4,0,1.9L38,69z"/>
+            </svg>
+            </div>
+            @else
+
+                <div class="col-12 btn-login2">
+                    <div class="buttons">
+                        <a href="{{route('pageLogin')}}">
+                        <i class="fas fa-user"></i>
+                        <span>Iniciar Sessão</span>
+                        </a>
+                    </div>
+                </div>
+
+            @endif
+        </div>
+    </section>
+
+
+    <section class="position-relative p-170">
+        <div class="row">
+            <div class="col-12">
+                <h2 class="mb-5 section-title">Elenco</h2>
+                <div class="d-flex list-cast">
+
+                @foreach ($casts as $cast)
+                <span>
+                    <div id="avatar" >
+                        @if (file_exists('movies/Cast/'.$cast.'.jpg'))
+                            <img src="{{asset('movies/Cast/'.$cast.'.jpg')}}"/>
+                            @else
+                            <img src="{{asset('images/default.png')}}"/>
+                        @endif
+
+                        <a>{{$cast}}</a>
+                    </div>
+                </span>
+                @endforeach
+
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+
+
+<div class="playerarea">
+    <div class="optionsButtons">
+        <div class="gButton click" onclick="showplayers();">
+            Mostrar Players
+            </div>
+    </div>
+    <div id="playerFrame">
+
+    </div>
+    <div class="list">
+        <div class="closePlayerarea" onclick="return closePlayerarea()">
+            <i class="fa fa-times-circle" aria-hidden="true"></i>
+        </div>
+        <div class="title_player">
+            Escolha um player de video
+        </div>
+        <div class="listing">
+            <div onclick="return getplayer('{{$movie->IMDB}}')" class="playerBtn">
+                <i class="fa fa-play" aria-hidden="true"></i>
+                <span>
+                    Player 1
+                </span>
+            </div>
+            <div onclick="return warezPlugin2('{{$movie->IMDB}}')" class="playerBtn">
+                <i class="fa fa-play" aria-hidden="true"></i>
+                <span>
+                    Player 2
+                </span>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+@endsection
+
+@section('scripts')
+
+    <script>
+        function showplayers(){
+            $('#playerFrame').removeClass('visible');
+            $('.optionsButtons').removeClass('active');
+            $('body').addClass('playerarea-active');
+        }
+        function closePlayerarea(){
+            $('body').removeClass('playerarea-active');
+        }
+
+    </script>
+    <script>
+        function getplayer(id){
+            $('#playerFrame').addClass('visible');
+            $('.optionsButtons').addClass('active');
+            var type='filme';
+            var season="";
+            var episode="";
+            warezPlugin(type,id,season,episode);
+
+        }
+    </script>
+    <script>
+         function warezPlugin(type, imdb, season, episode){
+                if (type == "filme") { season="";episode="";}else{if (season !== "") { season = "/"+season; }if (episode !== "") { episode = "/"+episode; }}
+                var frame = document.getElementById('playerFrame');
+                frame.innerHTML += '<iframe src="https://embed.warezcdn.com/'+type+'/'+imdb+season+episode+'" scrolling="no" frameborder="0" allowfullscreen="" webkitallowfullscreen="" mozallowfullscreen=""></iframe>';
+            }
+
+            function warezPlugin2(imdb){
+                $('#playerFrame').addClass('visible');
+            $('.optionsButtons').addClass('active');
+                var frame = document.getElementById('playerFrame');
+                frame.innerHTML += '<iframe src="https://fsapi.xyz/movie/'+imdb+'" scrolling="no" frameborder="0" allowfullscreen="" webkitallowfullscreen="" mozallowfullscreen=""></iframe>';
+            }
+    </script>
+
+<script>
+    $('.list-cast').slick({
+    dots: false,
+    infinite: false,
+    speed: 300,
+    arrows: false,
+    variableWidth: true,
+    variableHeight: true,
+    slidesToShow: 7,
+    slidesToScroll: 1,
+
+    responsive: [
+    {
+      breakpoint: 1024,
+      settings: {
+        slidesToShow: 6,
+        slidesToScroll: 1
+
+      }
+    },
+    {
+      breakpoint: 600,
+      settings: {
+        slidesToShow: 2,
+        slidesToScroll: 1
+      }
+    },
+    {
+      breakpoint: 480,
+      settings: {
+        slidesToShow: 1,
+        slidesToScroll: 1
+      }
+    }
+    // You can unslick at a given breakpoint now by adding:
+    // settings: "unslick"
+    // instead of a settings object
+  ]
+
+    });
+</script>
+
+@endsection
+
+@section('modals')
+    @include('frontend.modals.trailer');
+@endsection

@@ -1,0 +1,57 @@
+.cookie-consent{
+    position: fixed;
+    /* top: 50%; */
+    left: 50%;
+    transform: translate(-50%);
+    z-index: 999;
+}
+.cookie-consent .consent{
+        box-shadow:0 1px 2px rgba(0,0,0,0.07),
+        0 2px 4px rgba(0,0,0,0.07),
+        0 4px 8px rgba(0,0,0,0.07),
+        0 8px 16px rgba(0,0,0,0.07),
+        0 16px 32px rgba(0,0,0,0.07),
+        0 32px 64px rgba(0,0,0,0.07);
+        width: 500px;
+        height: 250px;
+        background: white;
+    border-radius: 15px;
+    color: black;
+}
+.times-close{
+    cursor: pointer;
+}
+.title-cookie{
+
+    margin: 0 auto;
+    font-weight: 600;
+    font-size: 16px;
+}
+.cookie-consent .card-header,.card-footer{
+    border:none;
+    background-color: transparent;
+}
+.cookie-consent .card-header>.d-flex{
+    justify-content: space-between;
+}
+
+.cookie-consent .card-header>.d-flex #logo{
+    width: 80px!important;
+}
+.cookie-consent .card-body{
+    font-size: 14px;
+    font-weight: 100;
+    font-family: 'Nunito';
+    letter-spacing: 0px;
+}
+.cookie-consent .card-footer>.d-flex > button{
+    padding: 20px;
+    width: 40%;
+    margin:5px;
+    border-radius: 20px;
+    height: 40px;
+    justify-content: center;
+    align-items: center;
+    /* vertical-align: middle; */
+    display: flex;
+}
