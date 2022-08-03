@@ -13,99 +13,76 @@
 
 </head>
 <body>
-    <div class="background"></div>
-    <div class="overlay"></div>
     <a href="{{URL::previous()}}"><span class="close-icon"><i class="fa fa-times-circle" aria-hidden="true"></i></span></a>
     <div class="content">
         <div class="logo">
             <img src="https://templates.iqonic.design/streamit/frontend/html/images/logo.png" alt="">
         </div>
-        <div class="header">
-            Novo Utilizador
+        <div class="header mb-5">
+            Regista-te agora!
         </div>
-        <small class="text-white">Cria a tua conta em segundos! </small>
-        <div class="row mt-5">
+        <div class="row">
             <div class="col-12">
-                <form role="form" method="POST" id="form-register" action="{{route('verify-Register')}}">
+                <form role="form" method="POST" action="{{route('verify-Register')}}">
                     @csrf
-
-                    <div class="input">
-                        <svg class="svg-icon" viewBox="0 0 20 20">
-							<path d="M12.075,10.812c1.358-0.853,2.242-2.507,2.242-4.037c0-2.181-1.795-4.618-4.198-4.618S5.921,4.594,5.921,6.775c0,1.53,0.884,3.185,2.242,4.037c-3.222,0.865-5.6,3.807-5.6,7.298c0,0.23,0.189,0.42,0.42,0.42h14.273c0.23,0,0.42-0.189,0.42-0.42C17.676,14.619,15.297,11.677,12.075,10.812 M6.761,6.775c0-2.162,1.773-3.778,3.358-3.778s3.359,1.616,3.359,3.778c0,2.162-1.774,3.778-3.359,3.778S6.761,8.937,6.761,6.775 M3.415,17.69c0.218-3.51,3.142-6.297,6.704-6.297c3.562,0,6.486,2.787,6.705,6.297H3.415z"></path>
-						</svg>
-                        <input type="text" name="name_user"  value="{{old('name-user')}}" class="form-control {{ $errors->has('name-user') ? ' invalid ' : '' }}" placeholder="Nome de Utilizador">
+                    <div class="form-group float-label-control">
+                        <label for="">Endereço de E-mail</label>
+                        <input type="email" name="email" value="{{old('email')}}" class="form-control {{ $errors->has('email') ? ' is-invalid' : '' }}" placeholder="Endereço de E-mail">
+                        @error('email')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="form-group float-label-control">
+                        <label for="">Nome de Utilizador</label>
+                        <input type="text" name="name_user"  value="{{old('name-user')}}" class="form-control {{ $errors->has('name-user') ? ' is-invalid' : '' }}" placeholder="Nome de Utilizador">
+                        @error('name-user')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
                     </div>
 
-                    @error('name-user')
-                    <div class="invalid-input mb-2">
-                        <span>{{ $message }}</span>
-                    </div>
-                    @enderror
-
-                    <div class="input">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"></circle><path d="M16 8v5a3 3 0 0 0 6 0v-1a10 10 0 1 0-3.92 7.94"></path></svg>
-                        <input type="email" name="email"  autocomplete ="email"  value="{{old('email')}}" class="form-control {{ $errors->has('email') ? ' invalid' : '' }}" placeholder="Endereço de E-mail">
-
-
-                    </div>
-                    @error('email')
-                    <div class="invalid-input">{{ $message }}</div>
-                @enderror
                     <div class="row">
 
                         <div class="col-6">
-                            <div class="input">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-                                <input type="password" id="new-password-text-field" name="password"  autocomplete="new-password"  class="form-control {{ $errors->has('password') ? ' invalid' : '' }}" placeholder="Palavra-Passe">
-
-                            </div>
-                            @error('password')
-                                    <div class="invalid-input">{{ $message }}</div>
+                            <div class="form-group float-label-control">
+                                <label for="">Palavra-Passe</label>
+                                <input type="password" name="password"  class="form-control {{ $errors->has('password') ? ' is-invalid' : '' }}" placeholder="Palavra-Passe">
+                                @error('password')
+                                    <div class="invalid-feedback">{{ $message }}</div>
                                  @enderror
+                            </div>
                         </div>
                         <div class="col-6">
-                            <div class="input">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-                                <input type="password" id="confirm-password-text-field" autocomplete="new-password" name="repet-password"class="form-control {{ $errors->has('repet-password') ? ' invalid' : '' }}" placeholder="Repetir Palavra-Passe">
-
+                            <div class="form-group float-label-control">
+                                <label for="">Repetir Palavra-Passe</label>
+                                <input type="password" name="repet-password"class="form-control {{ $errors->has('repet-password') ? ' is-invalid' : '' }}" placeholder="Repetir Palavra-Passe">
+                                @error('repet-password')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                 @enderror
                             </div>
-                            @error('repet-password')
-                            <div class="invalid-input">{{ $message }}</div>
-                         @enderror
                         </div>
                     </div>
-                    <div class="input">
-                        <input type="date" name="birthday"  value="{{old('birthday')}}" class="form-control {{ $errors->has('birthday') ? ' invalid' : '' }}" placeholder="Data de Aniversário">
-
+                    <div class="form-group float-label-control">
+                        <label for="">Data de Aniversário</label>
+                        <input type="date" name="birthday"  value="{{old('birthday')}}" class="form-control {{ $errors->has('birthday') ? ' is-invalid' : '' }}" placeholder="Data de Aniversário">
+                        @error('birthday')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                 @enderror
                     </div>
-                    @error('birthday')
-                    <div class="invalid-input">{{ $message }}</div>
-                 @enderror
 
-                    <div class="input">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
-                        <select name="gender" name="gender"  value="{{old('gender')}}" class="form-control {{ $errors->has('gender') ? ' invalid' : '' }}">
+                    <div class="form-group ">
+                        <label for="">Genero</label>
+                        <select name="gender" name="gender"  value="{{old('gender')}}" class="form-control {{ $errors->has('gender') ? ' is-invalid' : '' }}">
                             <option value="none" selected>Gender</option>
                             <option value="male">Male</option>
                             <option value="female">Female</option>
                             <option value="other">other</option>
                         </select>
-
+                        @error('gender')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                 @enderror
                     </div>
-                    @error('gender')
-                    <div class="invalid-input">{{ $message }}</div>
-                 @enderror
-                    <div class="col-12 p-0 mt-4">
-                        <div class="login-btn" onclick="Register();">
-                            <div class="c">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                               Criar conta
-                            </div>
-                        </div>
-                    </div>
+                    <button class="btn btn-lg btn-block btn-primary"> <i class="fa fa-check" aria-hidden="true"></i> Criar Conta</button>
                 </form>
-                <p class="col-12 noaccount">Já tens conta?<a class="create_account" href="{{route('pageLogin')}}"> Entra na tua conta</a></p>
-
             </div>
         </div>
     </div>
@@ -115,11 +92,82 @@
      <script type="text/javascript" src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
     <script src="{{ asset('js/app.js') }}"></script>
     <script>
-        function Register(){
-            $('#form-register').submit();
-        }
+
+(function ($) {
+        $.fn.floatLabels = function (options) {
+
+            // Settings
+            var self = this;
+            var settings = $.extend({}, options);
+
+
+            // Event Handlers
+            function registerEventHandlers() {
+                self.on('input keyup change', 'input, textarea', function () {
+                    actions.swapLabels(this);
+                });
+            }
+
+
+            // Actions
+            var actions = {
+                initialize: function() {
+                    self.each(function () {
+                        var $this = $(this);
+                        var $label = $this.children('label');
+                        var $field = $this.find('input,textarea').first();
+
+                        if ($this.children().first().is('label')) {
+                            $this.children().first().remove();
+                            $this.append($label);
+                        }
+
+                        var placeholderText = ($field.attr('placeholder') && $field.attr('placeholder') != $label.text()) ? $field.attr('placeholder') : $label.text();
+
+                        $label.data('placeholder-text', placeholderText);
+                        $label.data('original-text', $label.text());
+
+                        if ($field.val() == '') {
+                            $field.addClass('empty')
+                        }
+                    });
+                },
+                swapLabels: function (field) {
+                    var $field = $(field);
+                    var $label = $(field).siblings('label').first();
+                    var isEmpty = Boolean($field.val());
+
+                    if (isEmpty) {
+                        $field.removeClass('empty');
+                        $label.text($label.data('original-text'));
+                    }
+                    else {
+                        $field.addClass('empty');
+                        $label.text($label.data('placeholder-text'));
+                    }
+                }
+            }
+
+
+            // Initialization
+            function init() {
+                registerEventHandlers();
+
+                actions.initialize();
+                self.each(function () {
+                    actions.swapLabels($(this).find('input,textarea').first());
+                });
+            }
+            init();
+
+
+            return this;
+        };
+
+        $(function () {
+            $('.float-label-control').floatLabels();
+        });
+    })(jQuery);
     </script>
-
-
 </body>
 </html>

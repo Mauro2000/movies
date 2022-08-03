@@ -86,8 +86,6 @@
 
                <input type="hidden" name="Creator" id="creator">
 
-               <input type="hidden" name="country" id="country">
-
                <input type="hidden" name="photos" id="photos">
 
 
@@ -208,7 +206,7 @@
                   },
                   beforeSend: function(){
                    new swal({
-                        title: 'A carregar dados aguarde....'
+                        title: 'Loading cars from data base'
                     });
 
                   },
@@ -236,7 +234,6 @@
                         $('#year').attr("value",result[0].year);
                         $("#time").attr("value",result[0].time);
                         $('#categs').attr('value',result[0].categs);
-                        $('#country').attr('value',result[0].country);
                         $(".inputtags").tagsinput('add',result[0].categsm, {preventPost: true});
 
                         $("#cast").attr("value", JSON.stringify(result[0][0].cast));
@@ -253,9 +250,6 @@
 
                         $("#photos").attr('value',result[0][0].photos);
 
-
-
-                        $('#trailer').attr('value',result[0].youtubeEmbed);
 
                     }
                   },

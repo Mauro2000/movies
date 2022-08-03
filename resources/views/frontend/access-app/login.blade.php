@@ -13,15 +13,13 @@
 
 </head>
 <body>
-    <div class="background"></div>
-    <div class="overlay"></div>
     <a href="{{URL::previous()}}"><span class="close-icon"><i class="fa fa-times-circle" aria-hidden="true"></i></span></a>
     <div class="content">
         <div class="logo">
             <img src="https://templates.iqonic.design/streamit/frontend/html/images/logo.png" alt="">
         </div>
         <div class="header mb-5">
-            Conta de Utilizador
+            Log in!
         </div>
         <div class="row" id="loginform">
             <div class="col-12">
@@ -41,36 +39,38 @@
                     </button>
                 </div>
                 @endif
-                <form role="form" method="POST" id="form-login" action="{{route('verify-Login')}}">
+                <form role="form" method="POST" action="{{route('verify-Login')}}">
                     @csrf
-                    <div class="input">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"></circle><path d="M16 8v5a3 3 0 0 0 6 0v-1a10 10 0 1 0-3.92 7.94"></path></svg>
-                        <input id="emailInput" required name="email" value="{{old('email')}}" type="text" placeholder="Endereço de email">
-                    </div>
-                    <div class="input">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-                        <input id="emailInput" required  name="password" type="password" placeholder="Palavra-passe">
+                    <div class="form-group float-label-control">
+                        <label for="">Endereço de E-mail</label>
+                        <input type="email" name="email" value="{{old('email')}}" class="form-control {{ $errors->has('email') ? ' is-invalid' : '' }}" placeholder="Endereço de E-mail">
+                        @error('email')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
                     </div>
 
+                    <div class="form-group float-label-control">
+                        <label for="">Palavra-Passe</label>
+                        <input type="password" name="password"  class="form-control {{ $errors->has('password') ? ' is-invalid' : '' }}" placeholder="Palavra-Passe">
+                        @error('password')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                         @enderror
+                    </div>
+
+                    <div class="row">
+
+                    <button class="btn btn-lg btn-block btn-primary" id="btn-session">
+                        <div class="loading"></div>
+                        <i class="fa fa-user-circle" aria-hidden="true"></i>
+                        Iniciar Sessão
+                    </button>
+                </form>
 
             </div>
-            <div class="col-12 mt-3 group-options-access">
-                <div class="remember">
-                    <div class="input-check"></div>
-                    <div>Manter Sessão iniciada</div>
-                </div>
-                <a  class="forgot" href="{{route('forget.password.get')}}">Recuperar Palavra-Passe</a>
+            <div class="col-12 mt-3">
+                <p><a href="{{route('forget.password.get')}}">Recuperar Palavra-Passe<a></p>
+            <p class="mt-1">Ainda não tens conta?<a href="{{route('pageRegister')}}"> Regista-te já</a></p>
             </div>
-            <div class="col-12">
-                <div class="login-btn" onclick="Login();">
-                    <div class="c">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4M10 17l5-5-5-5M13.8 12H3"/></svg>
-                        Entrar na minha conta
-                    </div>
-                </div>
-            </div>
-        </form>
-            <p class="col-12 noaccount">Ainda não tens conta?<a class="create_account" href="{{route('pageRegister')}}"> Regista-te já</a></p>
         </div>
 
     </div>
@@ -80,9 +80,82 @@
      <script type="text/javascript" src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
     <script src="{{ asset('js/app.js') }}"></script>
     <script>
-        function Login(){
-            $('#form-login').submit();
-        }
+
+(function ($) {
+        $.fn.floatLabels = function (options) {
+
+            // Settings
+            var self = this;
+            var settings = $.extend({}, options);
+
+
+            // Event Handlers
+            function registerEventHandlers() {
+                self.on('input keyup change', 'input, textarea', function () {
+                    actions.swapLabels(this);
+                });
+            }
+
+
+            // Actions
+            var actions = {
+                initialize: function() {
+                    self.each(function () {
+                        var $this = $(this);
+                        var $label = $this.children('label');
+                        var $field = $this.find('input,textarea').first();
+
+                        if ($this.children().first().is('label')) {
+                            $this.children().first().remove();
+                            $this.append($label);
+                        }
+
+                        var placeholderText = ($field.attr('placeholder') && $field.attr('placeholder') != $label.text()) ? $field.attr('placeholder') : $label.text();
+
+                        $label.data('placeholder-text', placeholderText);
+                        $label.data('original-text', $label.text());
+
+                        if ($field.val() == '') {
+                            $field.addClass('empty')
+                        }
+                    });
+                },
+                swapLabels: function (field) {
+                    var $field = $(field);
+                    var $label = $(field).siblings('label').first();
+                    var isEmpty = Boolean($field.val());
+
+                    if (isEmpty) {
+                        $field.removeClass('empty');
+                        $label.text($label.data('original-text'));
+                    }
+                    else {
+                        $field.addClass('empty');
+                        $label.text($label.data('placeholder-text'));
+                    }
+                }
+            }
+
+
+            // Initialization
+            function init() {
+                registerEventHandlers();
+
+                actions.initialize();
+                self.each(function () {
+                    actions.swapLabels($(this).find('input,textarea').first());
+                });
+            }
+            init();
+
+
+            return this;
+        };
+
+        $(function () {
+            $('.float-label-control').floatLabels();
+        });
+    })(jQuery);
     </script>
 </body>
 </html>

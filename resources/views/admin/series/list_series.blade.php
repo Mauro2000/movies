@@ -187,7 +187,6 @@
                     $('#year').attr("value",result[0].year);
                     $("#time").attr("value",result[0].time);
                     $('#categs').attr('value',result[0].categs);
-                    $('#country').attr('value',result[0].country);
                     $(".inputtags").tagsinput('add',result[0].categsm, {preventPost: true});
 
                     $("#cast").attr("value", JSON.stringify(result[0][0].cast));
@@ -203,8 +202,6 @@
                     $("#creator").attr('value',result[0][0].Creator);
 
                     $("#seasons").attr("value",JSON.stringify(result[0][0].seasons));
-
-                    $('#trailer').attr('value',result[0].youtubeEmbed);
                 }
               },
               complete: function() {

@@ -3,34 +3,6 @@ a:hover{
     text-decoration: none;
     color:white;
 }
-.background{
-    position: fixed;
-    background-image: url('../assets/img/background_login2.jpg');
-    filter: grayscale(1) blur(10px);
-    background-attachment: fixed;
-    background-position: center;
-    background-size: cover;
-    width: 100%;
-    height: 100%;
-    z-index: 0;
-}
-
-.overlay{
-    background-color: var(--bgDark);
-
-    opacity: 0.8;
-    width: 100%;
-    height: 100%;
-    position: fixed;
-    z-index: 0;
-}
-
-.bg-red{
-    background-color: #E50813!important;
-}
-.bg-dark{
-    background-color: rgb(24, 27, 31)!important;
-}
 .descriptionItem{
     position: absolute;
     left: 25px;
@@ -176,10 +148,6 @@ figure img{
     background: linear-gradient(
 0deg,#0b0b0e 0,rgba(11,11,14,.95) 22%,rgba(7,6,10,.75) 58%,rgba(7,6,10,.65) 100%);
 }
-.img-background iframe{
-    width: 100%;
-    height: 100%;
-}
 
 
 
@@ -227,33 +195,8 @@ figure img{
     transform: translateY(-2px);
     fill: white;
 }
+ .btns{
 
- .btns a{
-
-    padding-right: 40px;
-    padding-left: 60px;
-    margin-right: 20px;
-    line-height: 48px;
-    width: auto;
-    position: relative;
-    display: flex;
-    height: 50px;
-justify-content: center;
-align-items: center;
-
-    font-size: 14px;
-    font-weight: 400;
-    cursor: pointer;
-    z-index: 10;
-    border-radius: 25px;
-    transition: all .2s ease-in-out;
- }
- .btns a i{
-    width: 20px;
-    height: 20px;
-    position: absolute;
-    top: 15px;
-    left: 15px;
  }
 .content-infos {
     padding-top: 40px;

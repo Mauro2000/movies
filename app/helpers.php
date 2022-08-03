@@ -1,6 +1,5 @@
 <?php
 
-
 function activeSubMenu($uri = '') {
     $active = '';
 
@@ -48,4 +47,13 @@ function getTrailer($movie, $year)
             {
                 echo "<b>check internet connection.....</b>";
             }
+        }
+
+        function imageColor($imageUrl){
+
+            $image = new \Imagick(asset($imageUrl));
+            $image->resizeImage(250, 250, \Imagick::FILTER_GAUSSIAN, 1);
+            $image->quantizeImage(1, \Imagick::COLORSPACE_RGB, 0, false, false);
+            $image->setFormat('RGB');
+            return substr(bin2hex($image), 0, 6);
         }

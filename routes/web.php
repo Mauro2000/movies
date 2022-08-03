@@ -58,7 +58,6 @@ Route::get('/', [PageController::class, 'index'])->name('homepage');
 Route::get('/movie/{IMDB}/assistir-{title}',[PageController::class,'show_movie_details'])->name('movieShow');
 
 Route::get('/serie/{IMDB}/assistir-{title}',[PageController::class,'show_serie_details'])->name('serieShow');
-Route::post('/serie/{IMDB}/assistir-{title}',[PageController::class,'show_serie_details'])->name('serieShow');
 
 Route::post('/serie',[PageController::class,'getEpisodes'])->name('getEpisodes');
 
@@ -84,8 +83,6 @@ Route::post('forget-password', [ForgotPasswordController::class, 'submitForgetPa
 Route::get('reset-password/{token}', [ForgotPasswordController::class, 'showResetPasswordForm'])->name('reset.password.get');
 Route::post('reset-password', [ForgotPasswordController::class, 'submitResetPasswordForm'])->name('reset.password.post');
 
-
-Route::get('/youtube',[PageController::class,'youtube'])->name('youtube');
 
 
 

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 use App\Traits\Uuids;
 use Illuminate\Http\Request;
-use Illuminate\Support\Carbon;
+
 use App\Models\slidersHome;
 use App\Models\movies;
 use Illuminate\Support\Facades\Hash;
@@ -24,6 +24,7 @@ use League\ColorExtractor\Color;
 use League\ColorExtractor\ColorExtractor;
 use League\ColorExtractor\Palette;
 use App\Models\GetMostCommonColors;
+use Carbon\Carbon;
 class PageController extends Controller
 {
 
@@ -48,6 +49,8 @@ class PageController extends Controller
     public function index(){
 
 
+      //  return imageColor("movies/tt10234724/tt10234724.jpg")    ;
+
 
         $sliders=slidersHome::with('movies','cover')->orderBy('created_at', 'DESC')->get();
 
@@ -55,14 +58,29 @@ class PageController extends Controller
 
         $movies=movies::with('cover')->where('type','=','Movie')->where('year','=','2021')->orwhere('year','=',date("Y"))->orderBy('created_at', 'DESC')->limit(8)->get();
 
-        $series=movies::with('cover')->where('type','=','TV Series')->whereBetween('year',[Carbon::now()->subYear(1)->year,Carbon::now()->year])->orderBy('created_at', 'DESC')->limit(8)->get();
+       // $series=movies::with('cover')->where('type','=','TV Series')->whereBetween('year',[Carbon::now()->subYear(1)->year,Carbon::now()->year])->orderBy('created_at', 'DESC')->limit(8)->get();
 
+        $episodes=episodes::with(array('getseason'=>function($query){
+            $query->select('id','movie_id')->groupBy('movie_id');
+        }))->whereBetween('airdate',[Carbon::now()->subWeek(2),Carbon::now()])->limit(15)->orderBy('created_at', 'DESC')->get()->pluck('getseason');
+
+        $seasons=array();
+
+        foreach($episodes as $key =>$episode){
+            array_push($seasons,$episode[0]->movie_id);
+        }
+
+
+        $series=movies::with('cover')->whereIn('id',array_unique($seasons))->orderBy('created_at', 'DESC')->limit(15)->get();
+
+
+       // $series=movies::with('cover')
 
         return view('frontend.Homepage',[
             'sliders'=>$sliders,
             'Lancamentos'=>$lancamentos,
             'Series'=>$series,
-            'Movies'=>$movies
+            'Movies'=>$movies,
         ]);
     }
 
@@ -98,6 +116,16 @@ class PageController extends Controller
     public function show_serie_details(Request $request){
 
         $serie= movies::with('cover','seasons')->where('IMDB','=',$request->IMDB)->where('status','=','1')->first();
+
+
+        $id_movie=$serie->seasons->last()->movie_id;
+        $id=$serie->seasons->last()->id;
+
+        $Todayepisodes=episodes::where([
+            ['airdate','=',date("y-m-d")],
+            ['season_id','=',$id],
+            ])->first();
+
 
         if(Auth::check()){
             $User=User::with('getFollows')->where('id','=',Auth::user()->id)->first();
@@ -259,7 +287,7 @@ class PageController extends Controller
 
     public function listSeries(Request $request)
     {
-        $series =movies::where('type','!=','Movie')->where('status','=','1');
+        $series =movies::with('cover')->where('type','!=','Movie')->where('status','=','1');
 
         if($request){
 
@@ -339,7 +367,7 @@ class PageController extends Controller
 
     public function listMovies(Request $request)
     {
-        $movies=movies::where('type','=','Movie')->where('status','=','1');
+        $movies=movies::with('cover')->where('type','=','Movie')->where('status','=','1');
 
         if($request){
 

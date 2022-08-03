@@ -65,7 +65,6 @@
 
                <input type="hidden" name="Creator" id="creator">
 
-               <input type="hidden" name="country" id="country">
 
                <div class="col-12">
                 <div class="form-group">

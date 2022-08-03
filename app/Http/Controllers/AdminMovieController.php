@@ -151,7 +151,7 @@ class AdminMovieController extends Controller
 
         $namecasts = array();
 
-        if(!empty($dados)){
+        if(!empty($dados) && is_array($dados)){
 
 
             foreach($dados as $cast => $image){

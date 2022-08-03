@@ -9,33 +9,6 @@
 
 @section('links')
 <link rel="stylesheet" href="{{asset('css/movie-details.css')}}">
-<style>
-    .right-infos{
-        margin-left: 220px;
-        width: 780px;
-    }
-    .modal-dialog {
-      max-width: 800px;
-      margin: 30px auto;
-  }
-
-
-
-.modal-body {
-  position:relative;
-  padding:0px;
-}
-.close {
-  position:absolute;
-  right:-30px;
-  top:0;
-  z-index:999;
-  font-size:2rem;
-  font-weight: normal;
-  color:#fff;
-  opacity:1;
-}
-</style>
 @endsection
 
 @section('content')
@@ -45,32 +18,24 @@
     <section class="position-relative infos">
 
         <img class="poster" src="{{asset('movies/'.$movie->IMDB.'/'.$movie->IMDB.'.jpg')}}"/>
-
-        <div class="right-infos">
-        <h1>Assistir</h1>
         <h2 class=" title mb-3">{{$movie->name}}</h2>
 
-        <div class="d-flex mb-3 align-items-center" id="info-movie">
+        <div class="d-flex mb-3" id="info-movie">
+            <span class="mr-3"><i class="far fa-star"></i> IMDB: {{str_replace(',','.',$movie->votes)}}</span>
+            <span class="time mb-3 mr-3">
+                <i class="far fa-clock"></i>
+                Duração: {{$movie->time}}</span>
             <div class="year mr-3">
-                {{$movie->year}}
-            </div>
-            <span class="mr-3 ratting">
-                {{str_replace(',','.',$movie->votes)}} <i>/10</i> <div class="Stars ml-1" style="--rating: {{$movie->votes}};"></div></span>
-            <span class="time mr-3">
-                <i class="fas fa-clock"></i>
-                {{$movie->time}}</span>
-            <span class="mr-3 text-uppercase trailer" data-toggle="modal" data-src="{{$movie->trailer}}" data-target="#myModal">
-                Trailer
-                <i class="fas fa-angle-right ml-2"></i>
-            </span>
+                <i class="fas fa-calendar-alt"></i>
+                Ano: {{$movie->year}}</div>
         </div>
 
-        <p class="Description summary mb-3"> {{$movie->summary}}</p>
+        <p class="Description summary mb-3"> {{\Illuminate\Support\Str::limit($movie->summary,119)}}</p>
 
 
         <p><span>Diretor:</span><span>{{$movie->director}}</span></p>
 
-            <div class="genres mb-3">
+            <div class="genres mb-5">
                 <?php $genres=explode(' ,',$movie->categs)?>
 
                 @foreach ($genres as $item)
@@ -87,18 +52,25 @@
 
             <div class="d-flex mt-3 m btns justify-content-center align-items-center r-mb-23 fadeInUp animated" data-animation-in="fadeInUp" data-delay-in="1.2" style="opacity: 1; animation-delay: 1.2s;">
 
-                <a href="javascript:void(0)" onclick="showplayers();"   class="mr-2 btn-login2 w-50" id="showPlayersmobile" tabindex="0">
-                    <div class="buttons">
+                <a href="javascript:void(0)" onclick="showplayers();"   class="mr-2 btn-movies" id="wishlist_btn" tabindex="0">
                     <i class="fas fa-play" aria-hidden="true"></i>
                     <span>Assitir</span>
-                    </div>
                 </a>
 
-                <a href="javascript:void(0)" onclick="AddWishlist('{{$movie->id}}')"  class="mr-2  btn-login2 w-50" id="wishlist_btn" tabindex="0">
-                    <div class="buttons">
+                <a href=""  class="mr-2 btn-movies btn-reproduzir btn-hover" tabindex="0">
+                    <svg width="24px" height="24px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M6,4.67012593 L6,19.3298741 C6,19.6888592 6.29101491,19.9798741 6.65,19.9798741 C6.78014165,19.9798741 6.90728686,19.940808 7.01497592,19.8677333 L17.6705631,12.6371563 C18.0224548,12.3983727 18.114147,11.9195356 17.8753633,11.5676439 C17.8206658,11.4870371 17.7511699,11.4175411 17.6705631,11.3628437 L7.01497592,4.13226667 C6.71792446,3.93069604 6.31371138,4.00809854 6.11214075,4.30515 C6.03906603,4.41283906 6,4.53998428 6,4.67012593 Z M5,4.67012593 C5,4.33976636 5.09916761,4.01701312 5.28466497,3.74364859 C5.79634428,2.98959487 6.82242363,2.79311159 7.57647734,3.3047909 L18.2320645,10.5353679 C18.4173555,10.6611011 18.5771059,10.8208515 18.7028391,11.0061425 C19.2517314,11.8150365 19.0409585,12.9157398 18.2320645,13.4646321 L7.57647734,20.6952091 C7.3031128,20.8807065 6.98035956,20.9798741 6.65,20.9798741 C5.73873016,20.9798741 5,20.2411439 5,19.3298741 L5,4.67012593 Z"/>
+                      </svg>
+
+                    <span>Ver Trailer</span>
+                </a>
+
+
+
+
+                <a href="javascript:void(0)" onclick="AddWishlist('{{$movie->id}}')"  class="mr-2 btn-movies" id="wishlist_btn" tabindex="0">
                     <i class="fas fa-plus" aria-hidden="true"></i>
                     <span>A Minha Lista</span>
-                    </div>
                 </a>
 
 
@@ -115,18 +87,12 @@
             </svg>
             </div>
             @else
-
-                <div class="col-12 btn-login2">
-                    <div class="buttons">
-                        <a href="{{route('pageLogin')}}">
-                        <i class="fas fa-user"></i>
-                        <span>Iniciar Sessão</span>
-                        </a>
-                    </div>
+                <div class="col-12 btn-login">
+                    <a href="{{route('pageLogin')}}" class="btn-get-started btn btn-light btn-large">
+                      <i class="fa fa-user-circle" aria-hidden="true"></i>  Iniciar Sessão
+                    </a>
                 </div>
-
             @endif
-        </div>
     </section>
 
 
@@ -169,35 +135,22 @@
 
     </div>
     <div class="list">
-        <div class="closePlayerarea" onclick="return closePlayerarea()">
-            <i class="fa fa-times-circle" aria-hidden="true"></i>
-        </div>
-        <div class="title_player">
+        <div class="title">
             Escolha um player de video
         </div>
         <div class="listing">
             <div onclick="return getplayer('{{$movie->IMDB}}')" class="playerBtn">
-                <i class="fa fa-play" aria-hidden="true"></i>
-                <span>
-                    Player 1
-                </span>
-            </div>
-            <div onclick="return warezPlugin2('{{$movie->IMDB}}')" class="playerBtn">
-                <i class="fa fa-play" aria-hidden="true"></i>
-                <span>
-                    Player 2
-                </span>
-            </div>
-
+                Player 1</div>
+        <div class="closePlayerarea" onclick="return closePlayerarea()">
+            <i class="fa fa-times-circle" aria-hidden="true"></i>
+        </div>
         </div>
     </div>
 </div>
 
-
 @endsection
 
 @section('scripts')
-
     <script>
         function showplayers(){
             $('#playerFrame').removeClass('visible');
@@ -225,13 +178,6 @@
                 if (type == "filme") { season="";episode="";}else{if (season !== "") { season = "/"+season; }if (episode !== "") { episode = "/"+episode; }}
                 var frame = document.getElementById('playerFrame');
                 frame.innerHTML += '<iframe src="https://embed.warezcdn.com/'+type+'/'+imdb+season+episode+'" scrolling="no" frameborder="0" allowfullscreen="" webkitallowfullscreen="" mozallowfullscreen=""></iframe>';
-            }
-
-            function warezPlugin2(imdb){
-                $('#playerFrame').addClass('visible');
-            $('.optionsButtons').addClass('active');
-                var frame = document.getElementById('playerFrame');
-                frame.innerHTML += '<iframe src="https://fsapi.xyz/movie/'+imdb+'" scrolling="no" frameborder="0" allowfullscreen="" webkitallowfullscreen="" mozallowfullscreen=""></iframe>';
             }
     </script>
 
@@ -277,8 +223,4 @@
     });
 </script>
 
-@endsection
-
-@section('modals')
-    @include('frontend.modals.trailer');
 @endsection

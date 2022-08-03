@@ -25,29 +25,19 @@
     <section class="position-relative infos">
 
         <img class="poster" src="{{asset('movies/'.$serie->IMDB.'/'.$serie->IMDB.'.jpg')}}"/>
-        <div class="right-infos">
-            <h1>Assistir</h1>
+        <h2 class=" title mb-3">{{$serie->name}}</h2>
 
-                <h2 class=" title mb-3">{{$serie->name}}</h2>
-
-
-        <div class="d-flex mb-3 align-items-center" id="info-movie">
+        <div class="d-flex mb-3" id="info-movie">
+            <span class="mr-3"><i class="far fa-star"></i> IMDB: {{str_replace(',','.',$serie->votes)}}</span>
+            <span class="time mb-3 mr-3">
+                <i class="far fa-clock"></i>
+                Duração: {{$serie->time}}</span>
             <div class="year mr-3">
-                {{$serie->year}}
-            </div>
-            <span class="mr-3 ratting">
-                {{str_replace(',','.',$serie->votes)}} <i>/10</i> <div class="Stars ml-1" style="--rating: {{$serie->votes}};"></div></span>
-                <span class="time mr-3">
-                    <i class="fas fa-clock"></i>
-                    {{$serie->time}}</span>
-                <span class="mr-3 text-uppercase trailer" data-toggle="modal" data-src="{{$serie->trailer}}" data-target="#myModal">
-                        Trailer
-                        <i class="fas fa-angle-right ml-2"></i>
-                </span>
-
+                <i class="fas fa-calendar-alt"></i>
+                Ano: {{$serie->year}}</div>
         </div>
 
-        <p class="Description summary mb-3"> {{$serie->summary}}</p>
+        <p class="Description summary mb-3"> {{\Illuminate\Support\Str::limit($serie->summary,119)}}</p>
 
 
         <p><span>Diretor:</span><span>{{$serie->director}}</span></p>
@@ -65,51 +55,45 @@
 
 
             <div class="d-flex mt-3 m btns align-items-center r-mb-23 fadeInUp animated" data-animation-in="fadeInUp" data-delay-in="1.2" style="opacity: 1; animation-delay: 1.2s;">
+                <a href=""  class="mr-2 btn-movies btn-reproduzir btn-hover" tabindex="0">
+                    <svg width="24px" height="24px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M6,4.67012593 L6,19.3298741 C6,19.6888592 6.29101491,19.9798741 6.65,19.9798741 C6.78014165,19.9798741 6.90728686,19.940808 7.01497592,19.8677333 L17.6705631,12.6371563 C18.0224548,12.3983727 18.114147,11.9195356 17.8753633,11.5676439 C17.8206658,11.4870371 17.7511699,11.4175411 17.6705631,11.3628437 L7.01497592,4.13226667 C6.71792446,3.93069604 6.31371138,4.00809854 6.11214075,4.30515 C6.03906603,4.41283906 6,4.53998428 6,4.67012593 Z M5,4.67012593 C5,4.33976636 5.09916761,4.01701312 5.28466497,3.74364859 C5.79634428,2.98959487 6.82242363,2.79311159 7.57647734,3.3047909 L18.2320645,10.5353679 C18.4173555,10.6611011 18.5771059,10.8208515 18.7028391,11.0061425 C19.2517314,11.8150365 19.0409585,12.9157398 18.2320645,13.4646321 L7.57647734,20.6952091 C7.3031128,20.8807065 6.98035956,20.9798741 6.65,20.9798741 C5.73873016,20.9798741 5,20.2411439 5,19.3298741 L5,4.67012593 Z"/>
+                      </svg>
 
-                <a href="javascript:void(0)" onclick="showplayers();" class="mr-2 btn-login2 w-50" id="showPlayersmobile" tabindex="0">
-                    <div class="buttons">
-                    <i class="fas fa-play" aria-hidden="true"></i>
-                    <span>Assitir</span>
-                    </div>
+                    <span>Ver Trailer</span>
                 </a>
 
-                @if (Auth::user()->getFollows!="[]")
+                @if (Auth::user()->getFollows!='[]')
                     @foreach (Auth::user()->getFollows as $follow)
 
-                        @if ($follow->movie_id ==$serie->id)
-                            <a href="javascript:void(0)" onclick="Follow('{{$serie->id}}')"  class="mr-2 btn-login2 w-50" id="follow_btn">
-                                <div class="buttons">
+                        @if ($follow->movie_id =="$serie->id")
+                            <a href="javascript:void(0)" onclick="Follow('{{$serie->id}}')"  class="mr-2 btn-movies" id="follow_btn">
                                 <i class="fas fa-check" aria-hidden="true"></i>
                                 <span>Deixar de Seguir</span>
-                                </div>
                             </a>
 
                         @endif
                     @endforeach
                 @else
-                    <a href="javascript:void(0)" onclick="Follow('{{$serie->id}}')"  class="mr-2 btn-login2 w-50" id="follow_btn">
-                        <div class="buttons">
-                        <i class="fa fa-plus" aria-hidden="true"></i>
-                            <span>Seguir Serie </span>
-                        </div>
+                    <a href="javascript:void(0)" onclick="Follow('{{$serie->id}}')"  class="mr-2 btn-movies" id="follow_btn">
+                            <i class="fa fa-plus" aria-hidden="true"></i>
+                            <span>Seguir Serie</span>
                     </a>
                 @endif
 
 
 
 
-                <a href="javascript:void(0)" onclick="AddWishlist('{{$serie->id}}')"  class="mr-2 btn-login2 w-50" id="wishlist_btn" tabindex="0">
-                    <div class="buttons">
+                <a href="javascript:void(0)" onclick="AddWishlist('{{$serie->id}}')"  class="mr-2 btn-movies" id="wishlist_btn" tabindex="0">
                     <i class="fas fa-plus" aria-hidden="true"></i>
-                    <span>A Minha Lista </span>
-                    </div>
+                    <span>A Minha Lista</span>
                 </a>
 
 
             </div>
 
 
-            <div class="button" id="showPlayers" onclick="showplayers();">
+            <div class="button" onclick="showplayers();">
                 <svg version="1.1" id="play" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" height="100px" width="100px"
                 viewBox="0 0 100 100" enable-background="new 0 0 100 100" xml:space="preserve">
              <path class="stroke-solid" fill="none" stroke="white"  d="M49.9,2.5C23.6,2.8,2.1,24.4,2.5,50.4C2.9,76.5,24.7,98,50.3,97.5c26.4-0.6,47.4-21.8,47.2-47.7
@@ -122,16 +106,12 @@
 
 
             @else
-            <div class="col-12 btn-login2">
-                <div class="buttons">
-                    <a href="{{route('pageLogin')}}">
-                        <i class="fas fa-user"></i>
-                        <span>Iniciar Sessão</span>
-                        </a>
+                <div class="col-12 btn-login">
+                    <a href="{{route('pageLogin')}}" class="btn-get-started btn btn-light btn-large">
+                      <i class="fa fa-user-circle" aria-hidden="true"></i>  Iniciar Sessão
+                    </a>
                 </div>
-            </div>
             @endif
-        </div>
     </section>
 
     <section class="position-relative p-170">
@@ -180,25 +160,24 @@
         </div>
     </div>
     <div class="list">
-        <div class="closePlayerarea" onclick="return closePlayerarea()">
-            <i class="fa fa-times-circle" aria-hidden="true"></i>
-        </div>
-        <div class="title_player">
+        <div class="title">
             Escolha uma Temporada
         </div>
         <div class="listing">
 
-            <div class="row w-100" style="justify-content: center;">
+            <div class="row" style="justify-content: center;">
                 @foreach ($serie->seasons as $seasons)
                     <div class="col-4 p-5 temporadas" style="cursor:pointer;">
                         <span><a onclick="return getEpisodes('{{$seasons->id}}','{{$seasons->season}}','{{$serie->IMDB}}')">Temporada {{$seasons->season}}</a></span>
                     </div>
                 @endforeach
             </div>
-           {{--  <div onclick="return getplayer('{{$serie->IMDB}}')" class="playerBtn">
-                Player 1</div> --}}
+            <div onclick="return getplayer('{{$serie->IMDB}}')" class="playerBtn">
+                Player 1</div>
 
-
+        <div class="closePlayerarea" onclick="return closePlayerarea()">
+            <i class="fa fa-times-circle" aria-hidden="true"></i>
+        </div>
         </div>
     </div>
 </div>
@@ -226,7 +205,6 @@
             var frame = document.getElementById('player1');
             frame.innerHTML = '<div class="col-12"><button onclick="warezPlugin('+season+','+episode+')" class="btn btn-primary" type="button">Player 1</button>\
                 <button onclick="warezPlugin2('+season+','+episode+')" class="btn btn-primary" type="button">Player 2</button>\
-                <button onclick="warezPlugin3('+season+','+episode+')" class="btn btn-primary" type="button">Player 3</button>\
                 </div>';
         }
 
@@ -267,18 +245,6 @@
                // var frame = document.getElementById('playerFrame');
                // frame.innerHTML = '<iframe src="https://embed.warezcdn.com/'+type+'/'+imdb+'/'+season+'/'+episode+'" scrolling="no" frameborder="0" allowfullscreen="" webkitallowfullscreen="" mozallowfullscreen=""></iframe>';
             }
-
-            function warezPlugin3(season,episode){
-
-                var imdb="{{$serie->IMDB}}";
-             var type="serie";
-                var frame = document.getElementById('player1');
-
-                frame.innerHTML +='<iframe src="https://fsapi.xyz/tv-imdb/'+imdb+'-'+season+'-'+episode+'" scrolling="no" frameborder="0" allowfullscreen="" webkitallowfullscreen="" mozallowfullscreen=""></iframe>';
-
-            }
-
-
     </script>
 <script>
     function getEpisodes(id,season,imdbid){
@@ -468,8 +434,3 @@ function random(min, max) {
 });
 </script>
 @endsection
-
-@section('modals')
-    @include('frontend.modals.trailer');
-@endsection
-

@@ -26,7 +26,7 @@
 <body>
 
     <!----website header ---->
-    <header class="col-12 d-none d-lg-block p-2">
+    <header class="col-12 d-none d-lg-block">
         <div class="main-header">
             <div class="container-fluid">
                 <div class="row">
@@ -129,20 +129,31 @@
                                         <li>
                                             <div class="profile">
                                                 <div class="icon_wrap">
-                                                    <a href="{{route('myAccount')}}">
-                                                  <img src="https://i.imgur.com/x3omKbe.png" alt="profile_pic" class="profile_pic">
-                                                    </a>
+                                                  <img src="https://i.imgur.com/x3omKbe.png" alt="profile_pic">
+                                                  <span class="name">{{auth()->user()->name}}</span>
+                                                  <i class="fas fa-chevron-down"></i>
+                                                </div>
+
+                                                <div class="profile_dd">
+                                                  <ul class="profile_ul">
+                                                    <li>
+                                                        <a href="{{route('logout')}}">Logout</a>
+                                                    </li>
+                                                  </ul>
                                                 </div>
                                               </div>
                                             </div>
                                         </li>
                                     @else
                                     <li class="nav-item nav-icon">
-                                        <a class="loggedButton" href="{{route('pageLogin')}}" rel="nofollow">
-                                            <i class="fa fa-user" aria-hidden="true"></i>
-                                            Minha Conta
-                                        </a>
-
+                                        <button class="btn btn-get-started btn-danger btn-large">
+                                            <a href="{{route('pageRegister')}}"> Registo</a>
+                                        </button>
+                                    </li>
+                                        <li class="nav-item nav-icon">
+                                            <button class="btn-get-started btn btn-light btn-large">
+                                                <a href="{{route('pageLogin')}}"> Iniciar Sessão</a>
+                                            </button>
                                         </li>
 
                                     @endif
@@ -497,6 +508,5 @@ $(".profile .icon_wrap").click(function(){
 
 
 @yield('scripts')
-@yield('modals')
 </body>
 </html>

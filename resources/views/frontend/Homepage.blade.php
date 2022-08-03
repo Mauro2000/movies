@@ -33,18 +33,14 @@
                                         <span> {{$slider->message}}</span>
                                     </div>
                                 </a>
-                                <div class="mt-5 mb-4 content-infos d-flex justify-content-center align-items-center flex-wrap  animate__animated animate__fadeInLeft">
+                                <div class="mt-5  content-infos d-flex flex-wrap  animate__animated animate__fadeInLeft">
                                     <h3 style="display: contents;" class="movie-name fadeInLeft animate__animated animate__fadeInLeft"  style="opacity: 1;">
-                                        @if ($slider->movies->logo!=null)
+                                        {{$slider->movies->name}}
                                     </h3>
-                                            <img width="500" src="{{asset('movies/'.$slider->movies->IMDB.'/'.$slider->movies->logo.'')}}"/>
-                                        @else
-                                            {{$slider->movies->name}}
-                                        </h3>
-                                        @endif
 
-
-
+                                    <p data-animation-in="fadeInUp" data-delay-in="1.2" class="fadeInUp animated desc w-100" style="opacity: 1; animation-delay: 1.2s;">
+                                        {{\Illuminate\Support\Str::limit($slider->movies->summary,150)}}
+                                        </p>
                                 </div>
 
 
@@ -104,15 +100,15 @@
                                         'title'=>Str::slug($slider->movies->name),
                                     ]
 
-                                    )}}"  class="mr-2 bg-red btn-movies btn-reproduzir btn-hover" tabindex="0">
+                                    )}}"  class="mr-2 btn-movies btn-reproduzir btn-hover" tabindex="0">
                                       <i class="fa fa-play-circle" aria-hidden="true"></i>
 
-                                      Assistir Filme
+                                      <span>Reproduzir</span>
                                     </a>
                                     @else
 
-
-                                            <a class="mr-2 bg-red btn-movies btn-reproduzir btn-hover" tabindex="0" href="{{route('serieShow',
+                                        <a class="mr-2 btn-movies btn-reproduzir btn-hover" tabindex="0">
+                                            <form class="m-0" method="POST" action="{{route('serieShow',
                                             [
                                                 'IMDB'=>$slider->movies->IMDB,
                                                 'title'=>Str::slug($slider->movies->name),
@@ -122,13 +118,47 @@
                                             @csrf
                                             <i class="fa fa-play-circle" aria-hidden="true"></i>
 
-
+                                            <button style="border: none;color:white;"class="bg-transparent ">Reproduzir</button>
 
                                             </form>
-                                            Assistir Serie
                                         </a>
 
                                     @endif
+
+
+
+                                    @if ($slider->movies->type=="Movie")
+                                    <a href="{{route('movieShow',
+                                    [
+                                        'IMDB'=>$slider->movies->IMDB,
+                                        'title'=>Str::slug($slider->movies->name),
+                                    ]
+
+                                    )}}"  class="mr-2 btn-movies" tabindex="0">
+                                      <i class="fa fa-info-circle" aria-hidden="true"></i>
+
+                                      <span>Mais Informações</span>
+                                    </a>
+                                    @else
+
+                                        <a class="mr-2 btn-movies" tabindex="0">
+                                            <form class="m-0" method="POST" action="{{route('serieShow',
+                                            [
+                                                'IMDB'=>$slider->movies->IMDB,
+                                                'title'=>Str::slug($slider->movies->name),
+                                            ]
+
+                                            )}}">
+                                            @csrf
+                                           <i class="fa fa-info-circle" aria-hidden="true"></i>
+
+                                            <button style="border: none;color:white;"class="bg-transparent ">Mais Informações</button>
+
+                                            </form>
+                                        </a>
+
+                                    @endif
+
 
                                     <a class="mr-2 btn-movies" tabindex="0">
                                         <form  class="m-0" action="{{route('addWishlist')}}" method="POST">
@@ -262,7 +292,7 @@
                                             </a>
                                             @else
                                             <div class="buttonplay">
-                                                <form method="post" action="{{route('serieShow',['IMDB'=>$movie->IMDB,'title'=>Str::slug($movie->name)])}}">
+                                                <form method="get" action="{{route('serieShow',['IMDB'=>$movie->IMDB,'title'=>Str::slug($movie->name)])}}">
                                                     @csrf
                                                         <button style="    width: 100%;border: none;" type="submit" tabindex="0">
                                                         <div class="noSelect btnIcon playBtnIcon">

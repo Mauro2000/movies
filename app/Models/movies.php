@@ -4,6 +4,7 @@ namespace App\Models;
 use App\Models\covers;
 use App\Models\servers;
 use App\Models\seasons;
+use App\Models\episodes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -30,5 +31,9 @@ class movies extends Model
 
     public function seasons(){
         return $this->hasMany(seasons::class, 'movie_id','id');
+    }
+
+    public function dateEpisodes(){
+        return $this->hasMany(episodes::class, 'movie_id','id');
     }
 }

@@ -97,7 +97,16 @@
                                             <span>{{$serie->categs}}</span>
                                         </div>
                                         <div class="buttonplay">
-                                            <form method="post" action="{{route('serieShow',['IMDB'=>$serie->IMDB,'title'=>Str::slug($serie->name)])}}">
+                                            <a href="{{route('serieShow',['IMDB'=>$serie->IMDB,'title'=>Str::slug($serie->name)])}}" tabindex="0">
+                                                <div class="noSelect btnIcon playBtnIcon">
+                                                    <div class="btntext">
+                                                         Watch
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                       {{--  <div class="buttonplay">
+                                            <form method="get" action="{{route('serieShow',['IMDB'=>$serie->IMDB,'title'=>Str::slug($serie->name)])}}">
                                             @csrf
                                                 <button style="    width: 100%;border: none;" type="submit" tabindex="0">
                                                 <div class="noSelect btnIcon playBtnIcon">
@@ -107,7 +116,7 @@
                                                 </div>
                                             </button>
                                         </form>
-                                        </div>
+                                        </div> --}}
                                     </div>
                                 </div>
                             </div>
