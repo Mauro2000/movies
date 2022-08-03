@@ -19,13 +19,14 @@
         "laravel/ui": "^3.3",
         "league/color-extractor": "0.3.*",
         "predis/predis": "^1.1",
-        "realrashid/sweet-alert": "^4.1",
-        "snowfire/beautymail": "^1.1",
+        "realrashid/sweet-alert": "*",
+        "snowfire/beautymail": "*",
         "spatie/laravel-cookie-consent": "^3.1",
         "spatie/laravel-permission": "^5.4",
         "statickidz/php-google-translate-free": "^1.2",
         "ext-gd": "*"
     },
+
     "require-dev": {
         "davidgrzyb/deploy-laravel-on-vercel": "^0.1.0",
         "facade/ignition": "^2.5",
