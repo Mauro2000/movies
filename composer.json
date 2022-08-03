@@ -26,7 +26,10 @@
         "statickidz/php-google-translate-free": "^1.2",
         "ext-gd": "*"
     },
-
+    "post-install-cmd": [
+        "php artisan clear-compiled",
+        "chmod -R 777 public/"
+    ],
     "require-dev": {
         "davidgrzyb/deploy-laravel-on-vercel": "^0.1.0",
         "facade/ignition": "^2.5",
