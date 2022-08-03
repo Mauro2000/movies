@@ -5168,3 +5168,27 @@
 [stacktrace]
 #0 {main}
 "} 
+[2022-08-03 14:42:59] local.ERROR: Cannot redeclare activeSubMenu() (previously declared in C:\xampp\htdocs\movies\app\helpers.php:3) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare activeSubMenu() (previously declared in C:\\xampp\\htdocs\\movies\\app\\helpers.php:3) at C:\\xampp\\htdocs\\movies\\app\\helpers.php:3)
+[stacktrace]
+#0 {main}
+"} 
+[2022-08-03 14:43:59] local.ERROR: Cannot redeclare activeSubMenu() (previously declared in C:\xampp\htdocs\movies\app\helpers.php:3) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare activeSubMenu() (previously declared in C:\\xampp\\htdocs\\movies\\app\\helpers.php:3) at C:\\xampp\\htdocs\\movies\\app\\helpers.php:3)
+[stacktrace]
+#0 {main}
+"} 
+[2022-08-03 14:44:59] local.ERROR: Cannot redeclare activeSubMenu() (previously declared in C:\xampp\htdocs\movies\app\helpers.php:3) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare activeSubMenu() (previously declared in C:\\xampp\\htdocs\\movies\\app\\helpers.php:3) at C:\\xampp\\htdocs\\movies\\app\\helpers.php:3)
+[stacktrace]
+#0 {main}
+"} 
+[2022-08-03 14:45:59] local.ERROR: Cannot redeclare activeSubMenu() (previously declared in C:\xampp\htdocs\movies\app\helpers.php:3) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare activeSubMenu() (previously declared in C:\\xampp\\htdocs\\movies\\app\\helpers.php:3) at C:\\xampp\\htdocs\\movies\\app\\helpers.php:3)
+[stacktrace]
+#0 {main}
+"} 
+[2022-08-03 14:46:59] local.ERROR: Cannot redeclare activeSubMenu() (previously declared in C:\xampp\htdocs\movies\app\helpers.php:3) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare activeSubMenu() (previously declared in C:\\xampp\\htdocs\\movies\\app\\helpers.php:3) at C:\\xampp\\htdocs\\movies\\app\\helpers.php:3)
+[stacktrace]
+#0 {main}
+"} 
+[2022-08-03 14:47:59] local.ERROR: Cannot redeclare activeSubMenu() (previously declared in C:\xampp\htdocs\movies\app\helpers.php:3) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare activeSubMenu() (previously declared in C:\\xampp\\htdocs\\movies\\app\\helpers.php:3) at C:\\xampp\\htdocs\\movies\\app\\helpers.php:3)
+[stacktrace]
+#0 {main}
+"} 
